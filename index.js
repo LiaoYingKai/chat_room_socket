@@ -15,9 +15,9 @@ io.on('connection', socket => {
 	socket.emit("getRoomList", roomList)
 
 	socket.on('createRoom', roomInfo => {
-		if (roomList <= 3) {
+		if (roomList.length <= 3) {
 			const id =  roomList.length
-			roomList.push({...roomInfo, id, numOfRoom: 0,})
+			roomList.push({...roomInfo, id, numOfPeople: 0,})
 			socket.emit("createRoomSuccess", '')
 			joinRoom(id)
 		} else {
@@ -29,10 +29,10 @@ io.on('connection', socket => {
 	
 	function joinRoom(roomId) {
 		const room = roomList.filter((item) => item.id === roomId)[0]
-		if (room.numOfRoom >= room.numOfPeople) {
+		if (room.numOfPeople >= room.numOfMaxPeople) {
 			socket.emit("addRoomFail", roomList)
 		} else {
-			room.numOfRoom = room.numOfRoom + 1
+			room.numOfPeople = room.numOfPeople + 1
 			socket.join(roomId)
 			socket.emit("getRoomList", roomList)
 		}
