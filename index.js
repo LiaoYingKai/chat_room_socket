@@ -28,14 +28,14 @@ io.on('connection', socket => {
 	socket.on('createRoom', createRoom)
 	socket.on('joinRoom', joinRoom)
 
-	function setUserName({user, userName}) {
-		userList[user.id].name = userName
-		socket.emit('userStatus', userList[user.id])
+	function setUserName({user, value}) {
+		userList[user.id].name = value
+		socket.emit('userStatusSuccess', userList[user.id])
 	}
 
-	function setUserRoomId({user, roomId}) {
-		userList[user.id].roomId = roomId
-		socket.emit('userStatus', userList[user.id]) 
+	function setUserRoomId({user, value}) {
+		userList[user.id].roomId = value
+		socket.emit('userStatusSuccess', userList[user.id]) 
 	}
 
 	function createRoom({ user ,roomInfo }) {
